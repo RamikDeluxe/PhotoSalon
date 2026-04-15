@@ -98,19 +98,6 @@ INSERT INTO `goods` (`ID`, `Name`, `Price`, `ShortDescription`, `FullDescription
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `items`
---
-
-CREATE TABLE `items` (
-  `ID` int(11) NOT NULL,
-  `Name` varchar(50) NOT NULL,
-  `Price` int(11) NOT NULL,
-  `Description` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Структура таблицы `onlineorders`
 --
 
