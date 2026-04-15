@@ -58,6 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['feedback_submit'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="arrow.css">
     <style>
         :root {
             --primary: #8a6d3b;
@@ -112,13 +113,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['feedback_submit'])) {
             padding-bottom: 1rem;
             color: var(--dark);
         }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--primary);
+        }
 
+        /* ========== АНИМАЦИЯ КАРТОЧЕК ========== */
         .service-card {
             border: none;
             border-radius: 10px;
             overflow: hidden;
             transition: transform var(--transition), box-shadow var(--transition);
             height: 100%;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s;
+        }
+        .service-card.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
         .service-card:hover {
             transform: translateY(-5px);
@@ -208,6 +227,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['feedback_submit'])) {
         .form-control:focus, .form-select:focus {
             border-color: var(--primary);
             box-shadow: 0 0 0 0.25rem rgba(138,109,59,0.25);
+        }
+
+        .about-section {
+            background-color: var(--secondary);
+            padding: 80px 0;
+        }
+        .about-image {
+            border-radius: 10px;
         }
 
         @media (max-width: 768px) {
@@ -375,6 +402,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['feedback_submit'])) {
         </div>
     </section>
 
+    <button class="scroll-top-btn" id="scrollTopBtn">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
     <footer class="footer">
         <div class="container">
             <div class="row">
@@ -423,6 +454,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['feedback_submit'])) {
             </div>
         </div>
     </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="arrow.js"></script>
+    <script>
+        const cards = document.querySelectorAll('.service-card');
+
+        function isElementInViewport(el) {
+            const rect = el.getBoundingClientRect();
+            return rect.top <= window.innerHeight - 100;
+        }
+
+        function checkCardsVisibility() {
+            cards.forEach(card => {
+                if (isElementInViewport(card) && !card.classList.contains('visible')) {
+                    card.classList.add('visible');
+                }
+            });
+        }
+        
+        window.addEventListener('load', checkCardsVisibility);
+        window.addEventListener('scroll', checkCardsVisibility);
+        
+        setTimeout(() => {
+            cards.forEach(card => {
+                if (isElementInViewport(card)) {
+                    card.classList.add('visible');
+                }
+            });
+        }, 100);
+    </script>
 </body>
 </html>
